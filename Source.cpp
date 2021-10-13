@@ -6,8 +6,8 @@
 using namespace std;
 
 double inicializeNotNegativeDouble() { // function that check type error
-	double temp_var; // inicialization of temporary variable 
-	while (!(cin >> temp_var) || temp_var < 0)
+	double temporaryVariable; // inicialization of temporary variable 
+	while (!(cin >> temporaryVariable) || temporaryVariable < 0)
 	{
 		cout << "Inicialization error.\nEnter correct value:\n";
 		cin.clear();
@@ -15,12 +15,12 @@ double inicializeNotNegativeDouble() { // function that check type error
 		// operator >> will no longer fetch data from the stream
 		// as it is in the wrong format
 	}
-	return temp_var;
+	return temporaryVariable;
 }
 
 double inicializeDouble() { // function that check type error
-	double temp_var; // inicialization of temporary variable 
-	while (!(cin >> temp_var))
+	double temporaryVariable; // inicialization of temporary variable 
+	while (!(cin >> temporaryVariable))
 	{
 		cout << "Inicialization error.\nEnter correct value:\n";
 		cin.clear();
@@ -28,12 +28,12 @@ double inicializeDouble() { // function that check type error
 		// operator >> will no longer fetch data from the stream
 		// as it is in the wrong format
 	}
-	return temp_var;
+	return temporaryVariable;
 }
 
 int inicializeNotNegativeInteger() { // function that check type error
-	int temp_var; // inicialization of temporary variable 
-	while (!(cin >> temp_var) || temp_var < 0)
+	int temporaryVariable; // inicialization of temporary variable 
+	while (!(cin >> temporaryVariable) || temporaryVariable < 0)
 	{
 		cout << "Inicialization error.\nEnter correct value:\n";
 		cin.clear();
@@ -41,12 +41,12 @@ int inicializeNotNegativeInteger() { // function that check type error
 		// operator >> will no longer fetch data from the stream 
 		// as it is in the wrong format
 	}
-	return temp_var;
+	return temporaryVariable;
 }
 
 int inicializeInteger() { // function that check type error
-	int temp_var; // inicialization of temporary variable 
-	while (!(cin >> temp_var))
+	int temporaryVariable; // inicialization of temporary variable 
+	while (!(cin >> temporaryVariable))
 	{
 		cout << "Inicialization error.\nEnter correct value:\n";
 		cin.clear();
@@ -54,14 +54,20 @@ int inicializeInteger() { // function that check type error
 		// operator >> will no longer fetch data from the stream as 
 		// it is in the wrong format
 	}
-	return temp_var;
+	return temporaryVariable;
 }
 
 void f1() {
-	
+	cout << "";
+
+	int choosepath = inicializeInteger();
 }
 
 void f2() {
+
+}
+
+void f3() {
 
 }
 
@@ -79,6 +85,9 @@ int main() {
 			break;
 		case 2:
 			f2();
+			break;
+		case 3:
+			f3();
 			break;
 		default:
 			cout << "Entered task number is incorrect, try again.\n"
