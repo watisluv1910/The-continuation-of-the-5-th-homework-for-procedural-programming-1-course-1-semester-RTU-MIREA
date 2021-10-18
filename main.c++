@@ -59,35 +59,35 @@ int inicializeInteger() { // function that check type error
 	return temporaryVariable;
 }
 
-void runSubtaskTenth() { // refers to the task 'Processing of text files'
+void runSubtaskTenth() { // refers to the 'Processing of text files'
 	
 }
 
 int runSubtaskTwentySeventh() { // refers to the 'Processing of text files'
 	ofstream fout; // object of ofstream class (writing)
 	string filePath = "text_file_Subtask_TwentySeventh.txt";
-	fout.open(filePath); 
+	fout.open(filePath);
 	if (!fout.is_open()) { // checking for the successful opening
 		cout << "\nFile opening error.\n";
 		return 0;
 	}
 	else {
-		srand(time(0));
+		srand(time(0)); // randomizing depends on system time
 		cout << "\nEnter the number of symbols in the file :\n";
 		int symbolsNumber = inicializeNotNegativeInteger();
 		switch (symbolsNumber) {
-		case 0 : {
+		case 0: {
 			cout << "\nThere are no symbols in the text file.\n";
 		}
-		default : {
+		default: { // {} because of inicializing symbolOutput variable
 			for (size_t i = 0; i < symbolsNumber; i++) {
-				if (i == symbolsNumber - 1) {
+				if (i == symbolsNumber - 1) { // if symbol is the last
 					int symbolOutput = rand() % 128;
-					fout << (char)symbolOutput;
+					fout << (char)symbolOutput; // without endl
 				}
-				else {
+				else { // if symbol isn't the last
 					int symbolOutput = rand() % 128;
-					fout << (char)symbolOutput << endl;
+					fout << (char)symbolOutput << endl; // with endl
 				}
 			}
 		}
@@ -103,40 +103,45 @@ int runSubtaskTwentySeventh() { // refers to the 'Processing of text files'
 	else {
 		string symbol, allTextSymbols;
 		cout << "\nThe file text is:\n";
-		while (!fin.eof()) {// true while not end of file
+		while (!fin.eof()) { // true while not end of file
 			fin >> symbol;
-			cout << symbol << endl;
+			cout << symbol << endl; // printing all symbols in the file
 			allTextSymbols += symbol; // reading all symbols here
 		}
 		for (size_t i = 0; i < 128; i++) { // iteration of all ASCII symbols
+			// searching for the index of first (char)i symbol in the file:
 			size_t symbolIndex = allTextSymbols.find((char)i), symbolCount = 0;
+			// if there is (char)i symbol in the file
 			while (symbolIndex != string::npos) {
 				symbolCount += 1;
+				// searching for the index of next i symbol beginning with
+				// the index of the next symbol to one found earlier:
 				symbolIndex = allTextSymbols.find((char)i, symbolIndex + 1);
 			}
+			// if there is at least one (char)i symbol in the file:
 			if (symbolCount > 0) {
-				cout << "\nThe number of " << (char)i 
-					 << " symbols is " << symbolCount << ".\n";
+				cout << "\nThe number of " << (char)i
+					<< " symbols is " << symbolCount << ".\n";
 			}
 		}
 		cout << endl;
 	}
-	fin.close();
+	fin.close(); // closing file
 }
 
-void runSubtaskNineteenth() { // refers to the task 'Ranks'
-
-}
-
-void runSubtaskSixtySeventh() { // refers to the task 'Ranks'
+void runSubtaskNineteenth() { // refers to the 'Ranks'
 
 }
 
-void runSubtaskSeventh() { // refers to the task 'Files'
+void runSubtaskSixtySeventh() { // refers to the 'Ranks'
 
 }
 
-void runSubtaskTwentySixth() { // refers to the task 'Files'
+void runSubtaskSeventh() { // refers to the 'Files'
+
+}
+
+void runSubtaskTwentySixth() { // refers to the 'Files'
 
 }
 
@@ -146,7 +151,7 @@ int main() {
 	cout << "Hello!\nTask number can't be more than 3.\n"
 		"Enter 1 to run the task 'Processing of text files', "
 		"2 to run the task 'Ranks', "
-		"3 to run the tusk 'Files'.\n"
+		"3 to run the task 'Files'.\n"
 		"Enter 0 to end the programm.\nEnter the task number :\n";
 	chooseTask = inicializeNotNegativeInteger();
 	while (chooseTask > 0) {
