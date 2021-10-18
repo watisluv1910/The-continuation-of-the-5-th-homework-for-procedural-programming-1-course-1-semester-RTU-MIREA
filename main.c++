@@ -63,7 +63,7 @@ void runSubtaskTenth() { // refers to the task 'Processing of text files'
 	
 }
 
-int runSubtaskTwentySeventh() { // refers to the task 'Processing of text files'
+int runSubtaskTwentySeventh() { // refers to the 'Processing of text files'
 	ofstream fout; // object of ofstream class (writing)
 	string filePath = "text_file_Subtask_TwentySeventh.txt";
 	fout.open(filePath); 
@@ -84,100 +84,44 @@ int runSubtaskTwentySeventh() { // refers to the task 'Processing of text files'
 				if (i == symbolsNumber - 1) {
 					int symbolOutput = rand() % 128;
 					fout << (char)symbolOutput;
-					//cout << (char)symbolOutput << endl;
 				}
 				else {
 					int symbolOutput = rand() % 128;
 					fout << (char)symbolOutput << endl;
-					//cout << (char)symbolOutput << endl;
 				}
 			}
 		}
 		}
 	}
 	fout.close(); // closing file
-	//ifstream fin; // object of ifstream class (reading)
-	//fin.open(filePath);
-	//int allTextSymbols[1]; // array with all symbols in the text (only ASCII)
-	//int allTextSymbolsCount[1]; // array that counts the number of symbols
-	//allTextSymbols[0] = 0;
-	//if (!fin.is_open()) { // checking for the successful opening
-	//	cout << "\nFile opening error.\n";
-	//	return 0;
-	//}
-	//else {
-		//string symbolInput = "";
-		//getline(fin, symbolInput);
-		//allTextSymbols[0] = (int)symbolInput[0]; // reading the 1st symbol
-		//allTextSymbolsCount[0] += 1;
-		//while (!fin.eof()) {// true while not end of file
-		//	symbolInput = "";
-		//	getline(fin, symbolInput); // reading all symbols
-		//	int *symbolIndex = find(begin(allTextSymbols), end(allTextSymbols), (int)symbolInput[0]);
-		//	if (symbolIndex != end(allTextSymbols)) { // if symbol is already in allTextSymbols
-		//		allTextSymbolsCount[distance(allTextSymbols, symbolIndex)]++;
-		//	}
-		//	else { // not found
-		//		// extending of allTextSymbols:
-		//		int allTextSymbolsExtended[sizeof(allTextSymbols) + 1];
-
-		//		// copy elements from allTextSymbols to allTextSymbolsExtended:
-		//		copy(allTextSymbols, allTextSymbols + sizeof(allTextSymbols),
-		//			begin(allTextSymbolsExtended));
-		//		/*for (size_t i = 0; i < sizeof(allTextSymbols); i++) {
-		//			allTextSymbolsExtended[i] = allTextSymbols[i];
-		//		}*/
-
-		//		// deleting allTextSymbols:
-		//		delete[] allTextSymbols; 
-
-		//		// inicializing allTextSymbols with length of extended:
-		//		int allTextSymbols[sizeof(allTextSymbolsExtended)];
-		//		copy(allTextSymbolsExtended, allTextSymbolsExtended+sizeof(allTextSymbolsExtended),
-		//			begin(allTextSymbols));
-		//		/*for (size_t i = 0; i < sizeof(allTextSymbolsExtended); i++) {
-		//			allTextSymbols[i] = allTextSymbolsExtended[i];
-		//		}*/
-
-		//		// deleting allTextSymbolsExtended:
-		//		delete[] allTextSymbolsExtended; 
-
-
-		//		// extending of allTextSymbolsCount:
-		//		int allTextSymbolsCountExtended[sizeof(allTextSymbolsCount) + 1];
-
-		//		// copy elements from allTextSymbols to allTextSymbolsExtended:
-		//		copy(allTextSymbolsCount, allTextSymbolsCount + sizeof(allTextSymbolsCount),
-		//			begin(allTextSymbolsCountExtended));
-		//		/*for (size_t i = 0; i < sizeof(allTextSymbolsCount); i++) {
-		//			allTextSymbolsCountExtended[i] = allTextSymbolsCount[i];
-		//		}*/
-
-		//		// deleting allTextSymbolsCount:
-		//		delete[] allTextSymbolsCount;
-
-		//		// inicializing allTextSymbols with length of extended:
-		//		int allTextSymbolsCount[sizeof(allTextSymbolsCountExtended)];
-		//		copy(allTextSymbolsCountExtended, allTextSymbolsCountExtended + sizeof(allTextSymbolsCountExtended),
-		//			begin(allTextSymbolsCount));
-		//		/*for (size_t i = 0; i < sizeof(allTextSymbolsCountExtended); i++) {
-		//			allTextSymbolsCount[i] = allTextSymbolsCountExtended[i];
-		//		}*/
-
-		//		// deleting allTextSymbolsCountExtended:
-		//		delete[] allTextSymbolsCountExtended;
-
-		//		// adding new symbol in the new unit:
-		//		allTextSymbols[sizeof(allTextSymbols) - 1] = (int)symbolInput[0];
-		//		allTextSymbolsCount[sizeof(allTextSymbolsCount) - 1]++;
-		//	}
-		//}
-		//for (size_t i = 0; i < sizeof(allTextSymbols); i++) {
-		//	cout << "The number of " << allTextSymbols[i] << " symbols is " << allTextSymbolsCount[i] << ".\n";
-		//}
-		//cout << endl;
-	/*}
-	fin.close();*/
+	ifstream fin; // object of ifstream class (reading)
+	fin.open(filePath);
+	if (!fin.is_open()) { // checking for the successful opening
+		cout << "\nFile opening error.\n";
+		return 0;
+	}
+	else {
+		string symbol, allTextSymbols;
+		cout << "\nThe file text is:\n";
+		while (!fin.eof()) {// true while not end of file
+			fin >> symbol;
+			cout << symbol << endl;
+			allTextSymbols += symbol; // reading all symbols here
+		}
+		for (size_t i = 0; i < 128; i++) { // iteration of all ASCII symbols
+			size_t symbolIndex = allTextSymbols.find((char)i), symbolCount = 0;
+			while (symbolIndex != string::npos) {
+				symbolCount += 1;
+				symbolIndex = allTextSymbols.find((char)i, symbolIndex + 1);
+			}
+			if (symbolCount > 0) {
+				cout << "\nThe number of " << (char)i 
+					 << " symbols is " << symbolCount << ".\n";
+			}
+		}
+		cout << endl;
+	}
+	fin.close();
 }
 
 void runSubtaskNineteenth() { // refers to the task 'Ranks'

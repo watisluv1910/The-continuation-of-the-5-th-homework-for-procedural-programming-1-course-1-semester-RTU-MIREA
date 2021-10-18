@@ -1,0 +1,64 @@
+symbolInput = "";
+			getline(fin, symbolInput); // reading all symbols
+			int* symbolIndex = find(allTextSymbols, allTextSymbols + sizeof(allTextSymbols) / sizeof(allTextSymbols[0]), (int)symbolInput[0]);
+			if (symbolIndex != allTextSymbols + sizeof(allTextSymbols) / sizeof(allTextSymbols[0])) { // if symbol is already in allTextSymbols
+				allTextSymbolsCount[distance(allTextSymbols, symbolIndex)]++;
+			}
+			else { // not found
+				// extending of allTextSymbols:
+				int* allTextSymbolsExtended = new int [sizeof(allTextSymbols) / sizeof(allTextSymbols[0]) + 1];
+
+				// copy elements from allTextSymbols to allTextSymbolsExtended:
+				copy(allTextSymbols, allTextSymbols + 
+					+ sizeof(allTextSymbols) / sizeof(allTextSymbols[0]),
+					allTextSymbolsExtended);
+				/*for (size_t i = 0; i < sizeof(allTextSymbols); i++) {
+					allTextSymbolsExtended[i] = allTextSymbols[i];
+				}*/
+
+				// deleting allTextSymbols:
+				delete[] allTextSymbols; 
+
+				// inicializing allTextSymbols with length of extended:
+				int* allTextSymbols = new int [sizeof(allTextSymbolsExtended) / sizeof(allTextSymbolsExtended[0])];
+				copy(allTextSymbolsExtended, allTextSymbolsExtended + 
+					+ sizeof(allTextSymbolsExtended) / sizeof(allTextSymbolsExtended[0]),
+					allTextSymbols);
+				/*for (size_t i = 0; i < sizeof(allTextSymbolsExtended); i++) {
+					allTextSymbols[i] = allTextSymbolsExtended[i];
+				}*/
+
+				// deleting allTextSymbolsExtended:
+				delete[] allTextSymbolsExtended; 
+
+
+				// extending of allTextSymbolsCount:
+				int* allTextSymbolsCountExtended = new int [sizeof(allTextSymbolsCount) / sizeof(allTextSymbolsCount[0]) + 1];
+
+				// copy elements from allTextSymbols to allTextSymbolsExtended:
+				copy(allTextSymbolsCount, allTextSymbolsCount + 
+					+ sizeof(allTextSymbolsCount) / sizeof(allTextSymbolsCount[0]),
+					allTextSymbolsCountExtended);
+				/*for (size_t i = 0; i < sizeof(allTextSymbolsCount); i++) {
+					allTextSymbolsCountExtended[i] = allTextSymbolsCount[i];
+				}*/
+
+				// deleting allTextSymbolsCount:
+				delete[] allTextSymbolsCount;
+
+				// inicializing allTextSymbols with length of extended:
+				int* allTextSymbolsCount = new int [sizeof(allTextSymbolsCountExtended) / sizeof(allTextSymbolsCountExtended[0])];
+				copy(allTextSymbolsCountExtended, allTextSymbolsCountExtended + 
+					+ sizeof(allTextSymbolsCountExtended) / sizeof(allTextSymbolsCountExtended[0]),
+					allTextSymbolsCount);
+				/*for (size_t i = 0; i < sizeof(allTextSymbolsCountExtended); i++) {
+					allTextSymbolsCount[i] = allTextSymbolsCountExtended[i];
+				}*/
+
+				// deleting allTextSymbolsCountExtended:
+				delete[] allTextSymbolsCountExtended;
+
+				// adding new symbol in the new unit:
+				allTextSymbols[sizeof(allTextSymbols) / sizeof(allTextSymbols[0]) - 1] = (int)symbolInput[0];
+				allTextSymbolsCount[sizeof(allTextSymbolsCount) / sizeof(allTextSymbolsCount[0]) - 1]++;
+			}
