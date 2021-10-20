@@ -59,14 +59,55 @@ int inicializeInteger() { // function that check type error
 	return temporaryVariable;
 }
 
-int insertSpaces(string word, string allVowels, string allConsinats, string allSpecialCharacters) {
+string findPrefix() {
+
+}
+// antisocial
+string findSuffix() {
+
+}
+
+int insertSpaces(string startWord, string allVowels, string allConsinats, string allSpecialCharacters) {
+	// fixed startWord without first prefix and/or last suffix:
+	string word = startWord;
+	string suffixesList = "acy, al, ance, ence, dom, er, or, ism, ist, ity, ty, ment, ness, sion, tion, "
+						  "ate, en, ify, fy, ize, ly, able, ible, al, esque, ful, ic, ical, ious, ous, ish, ive, less";
+	string prefixesList = "Anti, De, Un, Dis, Im, Mid, Mis, Over, Pre, Re, Super, Under, " 
+						  "anti, de, un, dis, im, mid, mis, over, pre, re, super, under";
+	size_t suffixLength = 5, prefixLength = 5; // max length of suffix (prefix)
+	string suffix, prefix;
+	// for suffix:
+	while (word.length() >= suffixLength && suffixLength >= 2) {
+		if (suffixesList.find(word.substr(word.length() - suffixLength, suffixLength)) != string::npos) {
+			suffix = " " + word.substr(word.length() - suffixLength, suffixLength);
+			word = word.substr(0, word.length() - suffixLength);
+			cout << "suffix - " << suffix;
+			cout << word << endl;
+			break; // if we already have suffix - leaving from while
+		}
+		else {
+			suffixLength--;
+		}
+	}
+	// for prefix:
+	while (word.length() >= prefixLength && prefixLength >= 2) {
+		if (prefixesList.find(word.substr(0, prefixLength)) != string::npos) {
+			prefix = word.substr(0, suffixLength) + " ";
+			word = word.substr(prefixLength, word.length() - prefixLength);
+			cout << "prefix - " << prefix << endl;
+			cout << word << endl;
+			break; // if we already have prefix - leaving from while
+		}
+		else {
+			prefixLength--;
+		}
+	}
 	string wordWithSpaces = "", letterAffiliation;
 	// if letter is consinat - "c"
 	// if letter is vowel - "v"
 	// if letter is a special character - "s" (anyway is indicated by spaces)
 	// if character is unacceptable - "u"
 	for (size_t i = 0; i < word.length(); i++) {
-		cout << endl << word[i] << endl;
 		// if letter is consinat:
 		if (allConsinats.find(word[i]) != string::npos) {
 			letterAffiliation += "c";
@@ -85,6 +126,7 @@ int insertSpaces(string word, string allVowels, string allConsinats, string allS
 			return 0;
 		}
 	}
+	// if length = 3 or more - searching for the syllables:
 	if (word.length() >= 3) {
 		size_t i = 0;
 		// consonants that convey a sound that is syllable:
@@ -93,32 +135,43 @@ int insertSpaces(string word, string allVowels, string allConsinats, string allS
 			if (letterAffiliation[i] == 's') {
 				if ((word.substr(i, word.length() - i)).length() >= 2 && letterAffiliation[i + 1] == 's') {
 					wordWithSpaces = wordWithSpaces + " " + word[i];
-					cout << i << " 1\n";
 					i++;
 				}
 				else {
 					wordWithSpaces = wordWithSpaces + " " + word[i] + " ";
-					cout << i << " 2\n";
 					i++;
 				}
 			}
 			else if (letterAffiliation[i] == 'v') {
-				if ((word.substr(i, word.length() - i)).length() >= 3 && letterAffiliation[i + 1] == 'c' && letterAffiliation[i + 2] == 'v') {
-					// 1st rule:
-					wordWithSpaces = wordWithSpaces + word[i] + " " + word[i + 1];
-					cout << i << " 3\n";
-					i += 2;
+				// if more than 5 consonats in a row - the word is compound 
+				if ((word.substr(i, word.length() - i)).length() >= 7 && letterAffiliation.substr(i + 1, 6) == "cccccc") {
+					cout << word;
+					return 0;
+				}
+				else if ((word.substr(i, word.length() - i)).length() >= 3 && letterAffiliation[i + 1] == 'c' && letterAffiliation[i + 2] == 'v') {
+					if (word[word.length() - 1] == 'e' && i + 2 == word.length() - 1) {
+						wordWithSpaces = wordWithSpaces + word.substr(i, 3);
+						i += 3;
+					}
+					else {
+						// 1st rule:
+						wordWithSpaces = wordWithSpaces + word[i] + " " + word[i + 1]; 
+						i += 2;
+					}
+					
 				}
 				else if ((word.substr(i, word.length() - i)).length() >= 4 && letterAffiliation.substr(i + 1, 2) == "cc" && letterAffiliation[i + 3] == 'v') {
+					if (word[word.length() - 1] == 'e' && i + 3 == word.length() - 1) {
+						wordWithSpaces = wordWithSpaces + word.substr(i, 4);
+						i += 4;
+					}
 					// 3rd rule:
-					if (syllabicConsonats.find(word[i + 2]) != string::npos) {
+					else if (syllabicConsonats.find(word[i + 2]) != string::npos) {
 						wordWithSpaces = wordWithSpaces + word[i] + " " + word[i + 1] + word[i + 2];
-						cout << i << " 4\n";
 					}
 					// 2nd (4th) rule:
 					else {
 						wordWithSpaces = wordWithSpaces + word[i] + word[i + 1] + " " + word[i + 2];
-						cout << i << " 5\n";
 					}
 					i += 3;
 				}
@@ -126,34 +179,29 @@ int insertSpaces(string word, string allVowels, string allConsinats, string allS
 					// 5th rule:
 					if (syllabicConsonats.find(word[i + 3]) != string::npos) {
 						wordWithSpaces = wordWithSpaces + word[i] + word[i + 1] + " " + word[i + 2] + word[i + 3];
-						cout << i << " 6\n";
 					}
 					// 2nd rule (for 3 consinats):
 					else {
 						wordWithSpaces = wordWithSpaces + word[i] + word[i + 1] + word[i + 2] + " " + word[i + 3];
-						cout << i << " 7\n";
 					}
 					i += 4;
 				}
 				else {
 					wordWithSpaces = wordWithSpaces + word[i];
-					cout << i << " 8\n";
 					i++;
 				}
 			}
 			else {
 				wordWithSpaces = wordWithSpaces + word[i];
-				cout << i << " 9\n";
 				i++;
 			}
 		}
 	}
 	// if length = 2 or lower - output unchanged word:
 	else {
-		wordWithSpaces = word; 
-		cout << "9\n";
+		wordWithSpaces = word;
 	}
-	cout << wordWithSpaces;
+	cout << prefix + wordWithSpaces + suffix;
 }
 
 int runSubtaskTenth() { // refers to the 'Processing of text files'
@@ -180,7 +228,8 @@ int runSubtaskTenth() { // refers to the 'Processing of text files'
 				"words and doesn't contain any characters other than "
 				"punctuation marks and numbers.\n"
 				"It's also desireable NOT to use abbreviations of ordinals, "
-				"(ex. 1st, 3rd) or compound words (ex. sightscreen).\n"
+				"(ex. 1st, 3rd) or compound words (ex. sightscreen). "
+				"Such words in any case won't be changed.\n"
 				"\nEnter your text:\n";
 			getline(cin, allTextSymbols);
 			break;
@@ -203,19 +252,30 @@ int runSubtaskTenth() { // refers to the 'Processing of text files'
 	}
 	cout << endl;
 	fout.close(); // closing file
-	// searching for the ' ' (space) symbol:
-	size_t spaceIndex = allTextSymbols.find((char)32); 
+	// searching for the " " (space) symbol:
+	size_t spaceIndex = allTextSymbols.find(" ");
 	string allVowels = "aeioquyAEIOQUY",
 		allConsinats = "bcdfghjklmnprstvwxzBCDFGHJKLMNPRSTVWXZ", 
 		allSpecialCharacters = "@_.+-*/=#¹()!?':;";
 	// if there is only one symbol or word in the file:
 	if (spaceIndex == string::npos) {
-		cout << "\nFile text with spaces:\n";
+		cout << "\nThe result is:\n";
 		insertSpaces(allTextSymbols, allVowels, allConsinats, allSpecialCharacters);
+		cout << endl;
 	}
 	// if there is more than one word:
 	else {
-		cout << "\nFile text with spaces:\n";
+		// for the same conditions of splitting a sentence into words:
+		allTextSymbols = " " + allTextSymbols;
+		cout << "\nThe result is:\n";
+		spaceIndex = allTextSymbols.find(" ");
+		while (spaceIndex != string::npos) {
+			string nWord = allTextSymbols.substr(spaceIndex + 1, allTextSymbols.find(" ", spaceIndex + 1) - (spaceIndex + 1));
+			insertSpaces(nWord, allVowels, allConsinats, allSpecialCharacters);
+			cout << " ";
+			spaceIndex = allTextSymbols.find(" ", spaceIndex + 1);
+		}
+		cout << endl;
 	}
 }
 
