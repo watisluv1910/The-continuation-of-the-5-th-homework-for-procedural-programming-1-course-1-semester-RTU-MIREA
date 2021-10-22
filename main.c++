@@ -8,7 +8,7 @@
 
 using namespace std;
 
-double inicializeNotNegativeDouble() { // function that check type error
+double initializeNotNegativeDouble() { // function that check type error
 	double temporaryVariable; // inicialization of temporary variable 
 	while (!(cin >> temporaryVariable) || temporaryVariable < 0)
 	{
@@ -21,7 +21,7 @@ double inicializeNotNegativeDouble() { // function that check type error
 	return temporaryVariable;
 }
 
-double inicializeDouble() { // function that check type error
+double initializeDouble() { // function that check type error
 	double temporaryVariable; // inicialization of temporary variable 
 	while (!(cin >> temporaryVariable))
 	{
@@ -34,7 +34,7 @@ double inicializeDouble() { // function that check type error
 	return temporaryVariable;
 }
 
-int inicializeNotNegativeInteger() { // function that check type error
+int initializeNotNegativeInteger() { // function that check type error
 	int temporaryVariable; // inicialization of temporary variable 
 	while (!(cin >> temporaryVariable) || temporaryVariable < 0)
 	{
@@ -47,7 +47,7 @@ int inicializeNotNegativeInteger() { // function that check type error
 	return temporaryVariable;
 }
 
-int inicializeInteger() { // function that check type error
+int initializeInteger() { // function that check type error
 	int temporaryVariable; // inicialization of temporary variable 
 	while (!(cin >> temporaryVariable))
 	{
@@ -67,8 +67,19 @@ vector<string> findPrefix(string startWord) {
 						  "anti", "de", "un", "dis", "im", "mid", "mis", "over", "pre", "re", "super", "under" };
 	size_t prefixLength = 5; // max length of prefix
 	string prefix = "";
+	// if length of the word is less than minimal (3):
+	if (word.length() < 3) {
+		// for returning 2 strings:
+		vector<string> prefixAndWord = { prefix, word };
+		return prefixAndWord;
+	}
 	bool isPrefix = false;
+	// finding max possible length of prefix for the word:
+	while (word.length() < prefixLength) {
+		prefixLength--;
+	}
 	while (word.length() >= prefixLength && prefixLength >= 2) {
+		// searching coincidence in prefixesList:
 		for (size_t i = 0; i < 24; i++) {
 			if (prefixesList[i] == word.substr(0, prefixLength)) {
 				isPrefix = true;
@@ -91,12 +102,23 @@ vector<string> findPrefix(string startWord) {
 // vector<string> is for returning the list
 vector<string> findSuffix(string startWord) {
 	string word = startWord;
-	string suffixesList[33] = { "acy", "ance", "ence", "dom", "er", "or", "ism", "ist", "ity", "ty", "ment", "ness", "sion", "tion", "ed",
+	string suffixesList[35] = { "acy", "ance", "ence", "dom", "er", "or", "ism", "ist", "ity", "ty", "ment", "ness", "sion", "tion", "ed", "ing", "y",
 						  "ate", "en", "ify", "fy", "ize", "ly", "al", "able", "ible", "esque", "ful", "ic", "ical", "ious", "ous", "ish", "ive", "less" };
 	size_t suffixLength = 5; // max length of suffix
 	string suffix = "";
+	// if length of the word is less than minimal (3):
+	if (word.length() < 3) {
+		// for returning 2 strings:
+		vector<string> suffixAndWord = { suffix, word };
+		return suffixAndWord;
+	}
 	bool isSuffix = false;
-	while (word.length() >= suffixLength && suffixLength >= 2) {
+	// finding max possible length of suffix for the word:
+	while (word.length() < suffixLength) {
+		suffixLength--; 
+	}
+	while (word.length() >= suffixLength && suffixLength >= 1) {
+		// searching coincidence in suffixesList:
 		for (size_t i = 0; i < 33; i++) {
 			if (suffixesList[i] == word.substr(word.length() - suffixLength, suffixLength)) {
 				isSuffix = true;
@@ -121,7 +143,8 @@ vector<string> findSuffix(string startWord) {
 //overcooked
 //Two roads diverged in a yellow wood,
 
-string insertSpaces(string startWord, string allVowels, string allConsinats, string allSpecialCharacters) {
+string insertSpaces(string startWord, string allVowels, 
+					string allConsinats, string allSpecialCharacters) {
 	// fixed startWord without first prefix and/or last suffix:
 	string word = startWord;
 	string wordWithSpaces = "", letterAffiliation;
@@ -142,9 +165,8 @@ string insertSpaces(string startWord, string allVowels, string allConsinats, str
 		else if (allSpecialCharacters.find(word[i]) != string::npos) {
 			letterAffiliation += "s";
 		}
-		// if character is unacceptable:
+		// if character is unacceptable (ex. 1984):
 		else {
-			cout << "\nIncorrect text entered.\nTry again later.\n";
 			return word;
 		}
 	}
@@ -155,10 +177,13 @@ string insertSpaces(string startWord, string allVowels, string allConsinats, str
 		string syllabicConsonats = "mnlMNL";
 		while (i < word.length()) {
 			if (letterAffiliation[i] == 's') {
-				if ((word.substr(i, word.length() - i)).length() >= 2 && letterAffiliation[i + 1] == 's') {
+				// if 2 special symbols in a row:
+				if ((word.substr(i, word.length() - i)).length() >= 2 
+					&& letterAffiliation[i + 1] == 's') {
 					wordWithSpaces = wordWithSpaces + " " + word[i];
 					i++;
 				}
+				// if 1 (or last) special symbol in a row:
 				else {
 					wordWithSpaces = wordWithSpaces + " " + word[i] + " ";
 					i++;
@@ -166,22 +191,26 @@ string insertSpaces(string startWord, string allVowels, string allConsinats, str
 			}
 			else if (letterAffiliation[i] == 'v') {
 				// if more than 5 consonats in a row - the word is compound 
-				if ((word.substr(i, word.length() - i)).length() >= 7 && letterAffiliation.substr(i + 1, 6) == "cccccc") {
+				if ((word.substr(i, word.length() - i)).length() >= 7 
+					&& letterAffiliation.substr(i + 1, 6) == "cccccc") {
 					return word;
 				}
 				else if ((word.substr(i, word.length() - i)).length() >= 3 && letterAffiliation[i + 1] == 'c' && letterAffiliation[i + 2] == 'v') {
-					if (word[word.length() - 1] == 'e' && i + 2 == word.length() - 1) {
+					// e in the end of the word doesn't define a syllable:
+					if (word[word.length() - 1] == 'e' 
+						&& i + 2 == word.length() - 1) {
 						wordWithSpaces = wordWithSpaces + word.substr(i, 3);
 						i += 3;
 					}
 					else {
 						// 1st rule:
-						wordWithSpaces = wordWithSpaces + word[i] + " " + word[i + 1]; 
+						wordWithSpaces = wordWithSpaces + word[i] + 
+										 + " " + word[i + 1];
 						i += 2;
 					}
-					
 				}
 				else if ((word.substr(i, word.length() - i)).length() >= 4 && letterAffiliation.substr(i + 1, 2) == "cc" && letterAffiliation[i + 3] == 'v') {
+					// e in the end of the word doesn't define a syllable:
 					if (word[word.length() - 1] == 'e' && i + 3 == word.length() - 1) {
 						wordWithSpaces = wordWithSpaces + word.substr(i, 4);
 						i += 4;
@@ -207,12 +236,12 @@ string insertSpaces(string startWord, string allVowels, string allConsinats, str
 					}
 					i += 4;
 				}
-				else {
+				else { // if vowel isn't syllabic:
 					wordWithSpaces = wordWithSpaces + word[i];
 					i++;
 				}
 			}
-			else {
+			else { // if symbol isn't a vowel or special
 				wordWithSpaces = wordWithSpaces + word[i];
 				i++;
 			}
@@ -244,6 +273,7 @@ int runSubtaskTenth() { // refers to the 'Processing of text files'
 		cin.ignore(32767, '\n'); 
 		switch (choosePath) {
 		case 1:
+			// rules of entering text:
 			cout << "\nAttention! For correct work of the programm:\n"
 				"It's desireable that the text consists of meaningful "
 				"words and doesn't contain any characters other than "
@@ -252,9 +282,11 @@ int runSubtaskTenth() { // refers to the 'Processing of text files'
 				"(ex. 1st, 3rd) or compound words (ex. sightscreen). "
 				"Such words in any case won't be changed.\n"
 				"\nEnter your text:\n";
+			// reading all symbols before a new line:
 			getline(cin, allTextSymbols);
 			break;
 		case 2:
+			// prearranged text:
 			allTextSymbols = "Down the river drifts an axe. "
 							 "From the town of Byron. "
 							 "Let it float by itself - "
@@ -266,7 +298,7 @@ int runSubtaskTenth() { // refers to the 'Processing of text files'
 			break;
 		}
 	}
-	cout << "\nFile text:\n";
+	cout << "\nThe file text is:\n";
 	for (size_t i = 0; i < allTextSymbols.length(); i++) {
 		fout << allTextSymbols[i]; // writing to the file
 		cout << allTextSymbols[i]; // writing to the console
@@ -275,25 +307,37 @@ int runSubtaskTenth() { // refers to the 'Processing of text files'
 	fout.close(); // closing file
 	// searching for the " " (space) symbol:
 	size_t spaceIndex = allTextSymbols.find(" ");
+	// "alphabet" strings:
 	string allVowels = "aeioquyAEIOQUY",
 		allConsinats = "bcdfghjklmnprstvwxzBCDFGHJKLMNPRSTVWXZ",
-		allSpecialCharacters = ",@_.+-*/=#¹()!?':;",
+		allSpecialCharacters = ",@_.+-*/=#¹%^(){}[]!?':;",
 		indivisibleSuffixesList = "al, ed";
-	// if there is only one symbol or word in the file:
+	// if there is only one symbol or word in the file (no space symbol):
 	if (spaceIndex == string::npos) {
 		cout << "\nThe result is:\n";
+		// result of findPrefix (prefix, rest part of word):
 		vector<string> withPrefix = findPrefix(allTextSymbols);
+		// result of findSuffix (rest part of word, suffix):
 		vector<string> withSuffix = findSuffix(withPrefix[1]);
-		// prefix with spaces:
-		string prefix = insertSpaces(withPrefix[0], allVowels, allConsinats, allSpecialCharacters),
-			// suffix with spaces:
-			suffix = insertSpaces(withSuffix[0], allVowels, allConsinats, allSpecialCharacters),
-			// word without prefixes (suffixes) and with spaces:
-			fixedWord = insertSpaces(withSuffix[1], allVowels, allConsinats, allSpecialCharacters);
+
+		// withPrefix[0] - prefix
+		// withSuffix[0] - suffix
+		// withSuffix[1] - rest part of word (from findPrefix and findSuffix)
+		
+		// inicializing prefix and suffix with spaces:
+		string prefix = insertSpaces(withPrefix[0], allVowels, 
+									 allConsinats, allSpecialCharacters),
+			   suffix = insertSpaces(withSuffix[0], allVowels, 
+								     allConsinats, allSpecialCharacters),
+			   // inicializing word without prefixes (suffixes) and with spaces:
+			   fixedWord = insertSpaces(withSuffix[1], allVowels, 
+										allConsinats, allSpecialCharacters);
 		if (prefix.length() != 0 && suffix.length() != 0) {
+			// if suffix isn't indivisible:
 			if (indivisibleSuffixesList.find(suffix) == string::npos) {
 				cout << prefix + " " + fixedWord + " " + suffix << endl;
 			}
+			// if suffix is indivisible:
 			else {
 				cout << prefix + " " + fixedWord + suffix << endl;
 			}
@@ -313,29 +357,33 @@ int runSubtaskTenth() { // refers to the 'Processing of text files'
 			cout << prefix + fixedWord + suffix << endl;
 		}
 	}
-	// if there is more than one word:
+	// if there is more than one word (space symbol exists):
 	else {
-		// for the same conditions of splitting a sentence into words:
+		// for the same conditions of splitting a sentence into words is
+		// necessary to insert space symbol to the begining:
 		allTextSymbols = " " + allTextSymbols;
 		cout << "\nThe result is:\n";
-		spaceIndex = allTextSymbols.find(" ");
-		while (spaceIndex != string::npos) {
+		spaceIndex = 0; // index of first space
+		while (spaceIndex != string::npos) { 
 			string nWord = allTextSymbols.substr(spaceIndex + 1, allTextSymbols.find(" ", spaceIndex + 1) - (spaceIndex + 1));
+			// result of findPrefix (prefix, rest part of word):
 			vector<string> withPrefix = findPrefix(nWord);
+			// result of findSuffix (rest part of word, suffix):
 			vector<string> withSuffix = findSuffix(withPrefix[1]);
-			// prefix with spaces:
-			string prefix = insertSpaces(withPrefix[0], allVowels, allConsinats, allSpecialCharacters);
-			//cout << endl << prefix << "1\n\n";
-			// suffix with spaces:
-			string suffix = insertSpaces(withSuffix[0], allVowels, allConsinats, allSpecialCharacters);
-			//cout << endl << suffix << "2\n\n";
-			// word without prefixes (suffixes) and with spaces:
-			string fixedWord = insertSpaces(withSuffix[1], allVowels, allConsinats, allSpecialCharacters);
-			//cout << endl << fixedWord << "3\n\n";
+			// inicializing prefix and suffix with spaces:
+			string prefix = insertSpaces(withPrefix[0], allVowels,
+				allConsinats, allSpecialCharacters),
+				suffix = insertSpaces(withSuffix[0], allVowels,
+					allConsinats, allSpecialCharacters),
+				// inicializing word without prefixes (suffixes) and with spaces:
+				fixedWord = insertSpaces(withSuffix[1], allVowels,
+					allConsinats, allSpecialCharacters);
 			if (prefix.length() != 0 && suffix.length() != 0) {
+				// if suffix isn't indivisible:
 				if (indivisibleSuffixesList.find(suffix) == string::npos) {
 					cout << prefix + " " + fixedWord + " " + suffix + " ";
 				}
+				// if suffix is indivisible:
 				else {
 					cout << prefix + " " + fixedWord + suffix + " ";
 				}
@@ -371,7 +419,7 @@ int runSubtaskTwentySeventh() { // refers to the 'Processing of text files'
 	else {
 		srand(time(0)); // randomizing depends on system time
 		cout << "\nEnter the number of symbols in the file :\n";
-		int symbolsNumber = inicializeNotNegativeInteger();
+		int symbolsNumber = initializeNotNegativeInteger();
 		switch (symbolsNumber) {
 		case 0: {
 			cout << "\nThere are no symbols in the text file.\n";
@@ -450,13 +498,13 @@ int main() {
 		"2 to run the task 'Ranks', "
 		"3 to run the task 'Files'.\n"
 		"Enter 0 to end the programm.\nEnter the task number :\n";
-	chooseTask = inicializeNotNegativeInteger();
+	chooseTask = initializeNotNegativeInteger();
 	while (chooseTask > 0) {
 		switch (chooseTask) {
 		case 1: {
 			cout << "\nEnter 0 to end the choosing of the subtask.\n"
 				"Enter the number of subtask :\n";
-			int chooseSubtask = inicializeNotNegativeInteger();
+			int chooseSubtask = initializeNotNegativeInteger();
 			while (chooseSubtask > 0) {
 				switch (chooseSubtask) {
 				case 10:
@@ -472,14 +520,14 @@ int main() {
 					break;
 				}
 				cout << "\nEnter the next subtask number:\n";
-				chooseSubtask = inicializeNotNegativeInteger();
+				chooseSubtask = initializeNotNegativeInteger();
 			}
 			break;
 		}
 		case 2: {
 			cout << "\nEnter 0 to end the choosing of the subtask.\n"
 				"Enter the number of subtask :\n";
-			int chooseSubtask = inicializeNotNegativeInteger();
+			int chooseSubtask = initializeNotNegativeInteger();
 			while (chooseSubtask > 0) {
 				switch (chooseSubtask) {
 				case 19:
@@ -495,14 +543,14 @@ int main() {
 					break;
 				}
 				cout << "\nEnter the next subtask number:\n";
-				chooseSubtask = inicializeNotNegativeInteger();
+				chooseSubtask = initializeNotNegativeInteger();
 			}
 			break;
 		}
 		case 3: {
 			cout << "\nEnter 0 to end the choosing of the subtask.\n"
 				"Enter the number of subtask :\n";
-			int chooseSubtask = inicializeNotNegativeInteger();
+			int chooseSubtask = initializeNotNegativeInteger();
 			while (chooseSubtask > 0) {
 				switch (chooseSubtask) {
 				case 7:
@@ -518,7 +566,7 @@ int main() {
 					break;
 				}
 				cout << "\nEnter the next subtask number:\n";
-				chooseSubtask = inicializeNotNegativeInteger();
+				chooseSubtask = initializeNotNegativeInteger();
 			}
 			break;
 		}
@@ -529,6 +577,6 @@ int main() {
 			break;
 		}
 		cout << "\nEnter the next task number:\n";
-		chooseTask = inicializeNotNegativeInteger();
+		chooseTask = initializeNotNegativeInteger();
 	}
 }
