@@ -277,7 +277,7 @@ int runSubtaskTenth() { // refers to the 'Processing of text files'
 			cout << "\nAttention! For correct work of the programm:\n"
 				"It's desireable that the text consists of meaningful "
 				"words and doesn't contain any characters other than "
-				"punctuation marks and numbers.\n"
+				"punctuation marks, standart special symbols and numbers.\n"
 				"It's also desireable NOT to use abbreviations of ordinals, "
 				"(ex. 1st, 3rd) or compound words (ex. sightscreen). "
 				"Such words in any case won't be changed.\n"
@@ -287,8 +287,8 @@ int runSubtaskTenth() { // refers to the 'Processing of text files'
 			break;
 		case 2:
 			// prearranged text:
-			allTextSymbols = "Down the river drifts an axe. "
-							 "From the town of Byron. "
+			allTextSymbols = "Down the river drifts an axe."
+							 "From the town of Byron."
 							 "Let it float by itself - "
 							 "Fucking piece of iron!";
 			break;
