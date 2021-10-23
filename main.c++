@@ -4,12 +4,13 @@
 #include <math.h>
 #include <fstream> // for if/ofstream
 #include <time.h> // for srand
-#include <vector>
+#include <vector> // for vector
+#include <stdio.h> // for printf
 
 using namespace std;
 
 double initializeNotNegativeDouble() { // function that check type error
-	double temporaryVariable; // inicialization of temporary variable 
+	double temporaryVariable; // inicialization of temporary variable
 	while (!(cin >> temporaryVariable) || temporaryVariable < 0)
 	{
 		cout << "Inicialization error.\nEnter correct value:\n";
@@ -60,7 +61,7 @@ int initializeInteger() { // function that check type error
 	return temporaryVariable;
 }
 
-// vector<string> is for returning the list
+// vector<string> is for returning the list:
 vector<string> findPrefix(string startWord) {
 	string word = startWord;
 	string prefixesList[24] = { "Anti", "De", "Un", "Dis", "Im", "Mid", "Mis", "Over", "Pre", "Re", "Super", "Under",
@@ -99,7 +100,7 @@ vector<string> findPrefix(string startWord) {
 	return prefixAndWord;
 }
 
-// vector<string> is for returning the list
+// vector<string> is for returning the list:
 vector<string> findSuffix(string startWord) {
 	string word = startWord;
 	string suffixesList[35] = { "acy", "ance", "ence", "dom", "er", "or", "ism", "ist", "ity", "ty", "ment", "ness", "sion", "tion", "ed", "ing", "y",
@@ -474,8 +475,79 @@ int runSubtaskTwentySeventh() { // refers to the 'Processing of text files'
 	fin.close(); // closing file
 }
 
-void runSubtaskNineteenth() { // refers to the 'Ranks'
+// for the 'Ranks' subtask 19:
+double initializeHeight() { // function that check type error
+	double temporaryVariable; // inicialization of temporary variable
+	cout << "-> ";
+	while (!(cin >> temporaryVariable) 
+		|| temporaryVariable < 0.0 
+		|| temporaryVariable > 244.0)
+	{
+		cout << "Inicialization error.\nEnter correct value:\n";
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		// operator >> will no longer fetch data from the stream
+		// as it is in the wrong format
+		cout << "-> ";
+	}
+	return temporaryVariable;
+}
 
+int runSubtaskNineteenth() { // refers to the 'Ranks'
+	cout << "\nStudent height analysis.\n"
+		"To exit from the program enter 0 and push <Enter> bottom:\n"
+		"Enter height in centimeters and push <Enter> bottom:\n";
+	double studentHeight = initializeHeight(), summaryHeight = 0;
+	// if user interrupted the programm:
+	if (studentHeight == 0.0) {
+		cout << "\nPremature exit from the subtask.\n"
+			"Programm doesn't have enough data for correct functioning.\n";
+		return 0;
+	}
+	// list with height of each student:
+	double* studentsHeightsList = new double[1]{studentHeight};
+	size_t studentsNumber = 0;
+	while (studentHeight != 0.0) {
+		summaryHeight += studentHeight;
+		studentsNumber++;
+		// each iteration except 1st it's necessary to extend the list:
+		if (studentsNumber > 1) {
+			// initializing new list longer than the old one:
+			double* studentsHeightsListExtended = new double[studentsNumber];
+			// copying elements from old list to the new one:
+			for (size_t i = 0; i < studentsNumber; i++) {
+				studentsHeightsListExtended[i] = studentsHeightsList[i];
+			}
+			// deleting old list:
+			delete[] studentsHeightsList;
+			studentsHeightsListExtended[studentsNumber - 1] = studentHeight;
+			// "renaming" new list as a the old one:
+			studentsHeightsList = studentsHeightsListExtended;
+		}
+		// initializing new height value:
+		studentHeight = initializeHeight();
+	}
+	printf("\nAverage height is: %.1lf cm.\n", summaryHeight / studentsNumber);
+	size_t upperHeightCount = 0, lowerHeightCount = 0, equalHeightCount = 0;
+	// comparing each height with average:
+	for (size_t i = 0; i < studentsNumber; i++) {
+		if (*(studentsHeightsList + i) > summaryHeight / studentsNumber) {
+			upperHeightCount++;
+		}
+		else if (*(studentsHeightsList + i) < summaryHeight / studentsNumber) {
+			lowerHeightCount++;
+		}
+		else {
+			equalHeightCount++;
+		}
+	}
+	cout << upperHeightCount << " student(s) have"
+		"a height upper than average\n"
+		<< lowerHeightCount << " student(s) have"
+		"a height lower than average\n"
+		<< equalHeightCount << " student(s) have"
+		"a height equal to average\n";
+	return 1;
 }
 
 void runSubtaskSixtySeventh() { // refers to the 'Ranks'
