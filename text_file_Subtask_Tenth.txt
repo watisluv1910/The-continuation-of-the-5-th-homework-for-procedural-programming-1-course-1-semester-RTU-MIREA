@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 Down the river drifts an axe.From the town of Byron.Let it float by itself - Fucking piece of iron!
+=======
+Down the river drifts an axe. From the town of Byron. Let it float by itself - Fucking piece of iron!
+>>>>>>> 00f02434959fafdd33ac76a818ec41010b0ebb96
