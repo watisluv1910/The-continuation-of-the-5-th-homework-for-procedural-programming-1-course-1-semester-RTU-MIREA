@@ -76,3 +76,14 @@ Additional information to the programmes:
 			1.2.1.2)A variant is possible at which the Notepad won't be able 
 				to correctly display all the characters due to the differences 
 				in the encodings.
+
+2)Ranks:
+
+	2.1)Subtask 19th:
+
+		2.1.1)Restrictions:
+
+			2.1.1.1)The height of student was limited by 244 cm 'cause it's the maximum
+				height of person that ever was fixed (according to the Guiness Records Book).
+
+	2.2)Subtask 67th:

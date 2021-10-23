@@ -61,6 +61,7 @@ int initializeInteger() { // function that check type error
 	return temporaryVariable;
 }
 
+// for the 'Processing of text files' subtask 10th:
 // vector<string> is for returning the list:
 vector<string> findPrefix(string startWord) {
 	string word = startWord;
@@ -100,6 +101,7 @@ vector<string> findPrefix(string startWord) {
 	return prefixAndWord;
 }
 
+// for the 'Processing of text files' subtask 10th:
 // vector<string> is for returning the list:
 vector<string> findSuffix(string startWord) {
 	string word = startWord;
@@ -144,6 +146,7 @@ vector<string> findSuffix(string startWord) {
 //overcooked
 //Two roads diverged in a yellow wood,
 
+// for the 'Processing of text files' subtask 10th:
 string insertSpaces(string startWord, string allVowels, 
 					string allConsinats, string allSpecialCharacters) {
 	// fixed startWord without first prefix and/or last suffix:
@@ -475,7 +478,7 @@ int runSubtaskTwentySeventh() { // refers to the 'Processing of text files'
 	fin.close(); // closing file
 }
 
-// for the 'Ranks' subtask 19:
+// for the 'Ranks' subtask 19th:
 double initializeHeight() { // function that check type error
 	double temporaryVariable; // inicialization of temporary variable
 	cout << "-> ";
@@ -550,8 +553,108 @@ int runSubtaskNineteenth() { // refers to the 'Ranks'
 	return 1;
 }
 
-void runSubtaskSixtySeventh() { // refers to the 'Ranks'
+// for the 'Ranks' subtask 67th:
+int initializeFinalNumberSystem() { // function that check type error
+	int temporaryVariable; // inicialization of temporary variable 
+	while (!(cin >> temporaryVariable)
+		|| temporaryVariable < 3
+		|| temporaryVariable > 6)
+	{
+		cout << "Inicialization error.\nEnter correct value:\n";
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		// operator >> will no longer fetch data from the stream as 
+		// it is in the wrong format
+	}
+	return temporaryVariable;
+}
 
+void runSubtaskSixtySeventh() { // refers to the 'Ranks'
+	cout << "\nEnter the value of n variable (length of the array):\n";
+	size_t numbersCount = initializeNotNegativeInteger();
+	cout << "\nEnter the final number system (from 3 to 6):\n";
+	int finalNumberSystem = initializeFinalNumberSystem();
+	cout << "\nEnter the numbers in double system (using enter).\n"
+		"If the number is fractal, use (,).\n";
+	// list of entered numbers:
+	string* originalNumbersList = new string[numbersCount];
+	// list of entered numbers in final number system:
+	string* finalNumbersList = new string[numbersCount];
+	for (size_t i = 0; i < numbersCount; i++) {
+		string originalNumber, finalNumber;
+		if (i == 0) {
+			cout << "\nEnter the 1st number:\n";
+		}
+		else if (i != numbersCount - 1) {
+			cout << "Enter the next number:\n";
+		}
+		else {
+			cout << "Enter the last number:\n";
+		}
+		cin >> originalNumber;
+		// filling the list with original numbers:
+		originalNumbersList[i] = originalNumber;
+		long numberInteger = 0;
+		float numberFloat = 0.0f;
+		int pointIndex = originalNumber.find(",");
+		if (pointIndex == string::npos) { // if there is no , in a number
+			// reversed iteration for transfer to decimal system:
+			for (int i = originalNumber.length() - 1; i >= 0; i--) {
+				char rankChar = originalNumber[i];
+				numberInteger += (static_cast<long>(rankChar) - 48) * pow(2, (originalNumber.length() - 1 - i));
+			}
+			while (numberInteger > 0) { // transfer to final number system
+				finalNumber = to_string(numberInteger % finalNumberSystem) + finalNumber;
+				numberInteger /= finalNumberSystem; // <= rank
+			}
+			finalNumbersList[i] = finalNumber;
+		}
+		else { // if , is in a number
+			// reversed iteration for transfer to decimal system before point:
+			for (int i = pointIndex - 1; i >= 0; i--) {
+				char rankChar = originalNumber[i];
+				numberInteger += (static_cast<long>(rankChar) - 48) * pow(2, (pointIndex - 1 - i));
+			}
+			// reversed iteration for transfer to decimal system after point:
+			for (int i = originalNumber.length() - 1; i > pointIndex; i--) {
+				char rankChar = originalNumber[i];
+				numberFloat += (static_cast<long>(rankChar) - 48) * pow(2, (-1 * (i - pointIndex)));
+			}
+			// fractional number in decimal system:
+			float numberDecimal = numberInteger + numberFloat;
+			// transfer integer part to final number system:
+			while (numberInteger > 0) { 
+				finalNumber = to_string(numberInteger % finalNumberSystem) + finalNumber;
+				numberInteger /= finalNumberSystem; // <= rank
+			}
+			finalNumber += ","; // adding the point to integer
+			string numberFloatString = to_string(numberFloat);
+			pointIndex = numberFloatString.find(",");
+			float transferAccuracy = 1.0f / pow(finalNumberSystem, numberFloatString.length() - 1 - pointIndex);
+			// transfer fractional part to ss2:
+			int counterOfRanks = 0;
+			cout << "Enter needful number of ranks after (,):\n";
+			int maxCountOfRanks = initializeNotNegativeInteger();
+			while (stof(numberFloatString.substr(numberFloatString.find(",") + 1, numberFloatString.length() - 1 - numberFloatString.find(","))) > transferAccuracy) {
+				numberFloatString = to_string(numberFloat *= finalNumberSystem);
+				// the integer part of numberFloat
+				string integerPart = numberFloatString.substr(0, numberFloatString.find(","));
+				if (counterOfRanks >= maxCountOfRanks) {
+					break;
+				}
+				else {
+					finalNumber = finalNumber + to_string(stoi(integerPart) % finalNumberSystem);
+					counterOfRanks++;
+				}
+			}
+			finalNumbersList[i] = finalNumber;
+		}
+	}
+	cout << endl;
+	for (size_t i = 0; i < numbersCount; i++) {
+		cout << "Original number is: " << originalNumbersList[i]
+			<< "\t\tFinal number is: " << finalNumbersList[i] << ".\n";
+	}
 }
 
 void runSubtaskSeventh() { // refers to the 'Files'
