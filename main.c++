@@ -9,54 +9,106 @@
 
 using namespace std;
 
-double initializeNotNegativeDouble() { // function that check type error
-	double temporaryVariable; // inicialization of temporary variable
-	while (!(cin >> temporaryVariable) || temporaryVariable < 0)
-	{
-		cout << "Inicialization error.\nEnter correct value:\n";
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		// operator >> will no longer fetch data from the stream
-		// as it is in the wrong format
-	}
-	return temporaryVariable;
-}
-
-double initializeDouble() { // function that check type error
-	double temporaryVariable; // inicialization of temporary variable 
-	while (!(cin >> temporaryVariable))
-	{
-		cout << "Inicialization error.\nEnter correct value:\n";
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		// operator >> will no longer fetch data from the stream
-		// as it is in the wrong format
-	}
-	return temporaryVariable;
-}
-
-int initializeNotNegativeInteger() { // function that check type error
+// function that check type error or "border crossing"
+int initializeInteger(string path, int lowerBound, int upperBound) { 
 	int temporaryVariable; // inicialization of temporary variable 
-	while (!(cin >> temporaryVariable) || temporaryVariable < 0)
-	{
-		cout << "Inicialization error.\nEnter correct value:\n";
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		// operator >> will no longer fetch data from the stream 
-		// as it is in the wrong format
+	if (lowerBound != 0 || upperBound != 0) {
+		while (!(cin >> temporaryVariable)
+			|| temporaryVariable < lowerBound
+			|| temporaryVariable > upperBound) {
+			cout << "Initialization error.\nEnter correct value:\n";
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			// operator >> will no longer fetch data from the stream 
+			// as it is in the wrong format
+		}
+	}
+	else if (path == "all") {
+		while (!(cin >> temporaryVariable)) {
+			cout << "Initialization error.\nEnter correct value:\n";
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		}
+	}
+	else if (path == "negative") {
+		while (!(cin >> temporaryVariable) || temporaryVariable >= 0) {
+			cout << "Initialization error.\nEnter correct value:\n";
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		}
+	}
+	else if (path == "notpositive") {
+		while (!(cin >> temporaryVariable) || temporaryVariable > 0) {
+			cout << "Initialization error.\nEnter correct value:\n";
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		}
+	}
+	else if (path == "notnegative") {
+		while (!(cin >> temporaryVariable) || temporaryVariable < 0) {
+			cout << "Initialization error.\nEnter correct value:\n";
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		}
+	}
+	else if (path == "positive") {
+		while (!(cin >> temporaryVariable) || temporaryVariable <= 0) {
+			cout << "Initialization error.\nEnter correct value:\n";
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		}
 	}
 	return temporaryVariable;
 }
 
-int initializeInteger() { // function that check type error
+// function that check type error or "border crossing"
+double initializeDouble(string path, double lowerBound, double upperBound) {
 	int temporaryVariable; // inicialization of temporary variable 
-	while (!(cin >> temporaryVariable))
-	{
-		cout << "Inicialization error.\nEnter correct value:\n";
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		// operator >> will no longer fetch data from the stream as 
-		// it is in the wrong format
+	if (lowerBound != 0 || upperBound != 0) {
+		while (!(cin >> temporaryVariable)
+			|| temporaryVariable < lowerBound
+			|| temporaryVariable > upperBound) {
+			cout << "Initialization error.\nEnter correct value:\n";
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			// operator >> will no longer fetch data from the stream 
+			// as it is in the wrong format
+		}
+	}
+	else if (path == "all") {
+		while (!(cin >> temporaryVariable)) {
+			cout << "Initialization error.\nEnter correct value:\n";
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		}
+	}
+	else if (path == "negative") {
+		while (!(cin >> temporaryVariable) || temporaryVariable >= 0) {
+			cout << "Initialization error.\nEnter correct value:\n";
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		}
+	}
+	else if (path == "notpositive") {
+		while (!(cin >> temporaryVariable) || temporaryVariable > 0) {
+			cout << "Initialization error.\nEnter correct value:\n";
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		}
+	}
+	else if (path == "notnegative") {
+		while (!(cin >> temporaryVariable) || temporaryVariable < 0) {
+			cout << "Initialization error.\nEnter correct value:\n";
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		}
+	}
+	else if (path == "positive") {
+		while (!(cin >> temporaryVariable) || temporaryVariable <= 0) {
+			cout << "Initialization error.\nEnter correct value:\n";
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		}
 	}
 	return temporaryVariable;
 }
@@ -423,7 +475,7 @@ int runSubtaskTwentySeventh() { // refers to the 'Processing of text files'
 	else {
 		srand(time(0)); // randomizing depends on system time
 		cout << "\nEnter the number of symbols in the file :\n";
-		int symbolsNumber = initializeNotNegativeInteger();
+		int symbolsNumber = initializeInteger("notnegative", 0, 0);
 		switch (symbolsNumber) {
 		case 0: {
 			cout << "\nThere are no symbols in the text file.\n";
@@ -478,29 +530,11 @@ int runSubtaskTwentySeventh() { // refers to the 'Processing of text files'
 	fin.close(); // closing file
 }
 
-// for the 'Ranks' subtask 19th:
-double initializeHeight() { // function that check type error
-	double temporaryVariable; // inicialization of temporary variable
-	cout << "-> ";
-	while (!(cin >> temporaryVariable) 
-		|| temporaryVariable < 0.0 
-		|| temporaryVariable > 244.0)
-	{
-		cout << "Inicialization error.\nEnter correct value:\n";
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		// operator >> will no longer fetch data from the stream
-		// as it is in the wrong format
-		cout << "-> ";
-	}
-	return temporaryVariable;
-}
-
 int runSubtaskNineteenth() { // refers to the 'Ranks'
 	cout << "\nStudent height analysis.\n"
 		"To exit from the program enter 0 and push <Enter> bottom:\n"
 		"Enter height in centimeters and push <Enter> bottom:\n";
-	double studentHeight = initializeHeight(), summaryHeight = 0;
+	double studentHeight = initializeDouble("all", 0.0, 272.0), summaryHeight = 0;
 	// if user interrupted the programm:
 	if (studentHeight == 0.0) {
 		cout << "\nPremature exit from the subtask.\n"
@@ -528,7 +562,7 @@ int runSubtaskNineteenth() { // refers to the 'Ranks'
 			studentsHeightsList = studentsHeightsListExtended;
 		}
 		// initializing new height value:
-		studentHeight = initializeHeight();
+		studentHeight = initializeDouble("all", 0.0, 272.0);
 	}
 	printf("\nAverage height is: %.1lf cm.\n", summaryHeight / studentsNumber);
 	size_t upperHeightCount = 0, lowerHeightCount = 0, equalHeightCount = 0;
@@ -544,36 +578,20 @@ int runSubtaskNineteenth() { // refers to the 'Ranks'
 			equalHeightCount++;
 		}
 	}
-	cout << upperHeightCount << " student(s) have"
+	cout << upperHeightCount << " student(s) have "
 		"a height upper than average\n"
-		<< lowerHeightCount << " student(s) have"
+		<< lowerHeightCount << " student(s) have "
 		"a height lower than average\n"
-		<< equalHeightCount << " student(s) have"
+		<< equalHeightCount << " student(s) have "
 		"a height equal to average\n";
 	return 1;
 }
 
-// for the 'Ranks' subtask 67th:
-int initializeFinalNumberSystem() { // function that check type error
-	int temporaryVariable; // inicialization of temporary variable 
-	while (!(cin >> temporaryVariable)
-		|| temporaryVariable < 3
-		|| temporaryVariable > 6)
-	{
-		cout << "Inicialization error.\nEnter correct value:\n";
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		// operator >> will no longer fetch data from the stream as 
-		// it is in the wrong format
-	}
-	return temporaryVariable;
-}
-
 void runSubtaskSixtySeventh() { // refers to the 'Ranks'
 	cout << "\nEnter the value of n variable (length of the array):\n";
-	size_t numbersCount = initializeNotNegativeInteger();
+	size_t numbersCount = initializeInteger("notnegative", 0, 0);
 	cout << "\nEnter the final number system (from 3 to 6):\n";
-	int finalNumberSystem = initializeFinalNumberSystem();
+	int finalNumberSystem = initializeInteger("all", 3, 6);
 	cout << "\nEnter the numbers in double system (using enter).\n"
 		"If the number is fractal, use (,).\n";
 	// list of entered numbers:
@@ -634,7 +652,7 @@ void runSubtaskSixtySeventh() { // refers to the 'Ranks'
 			// transfer fractional part to ss2:
 			int counterOfRanks = 0;
 			cout << "Enter needful number of ranks after (,):\n";
-			int maxCountOfRanks = initializeNotNegativeInteger();
+			int maxCountOfRanks = initializeInteger("notnegative", 0, 0);
 			while (stof(numberFloatString.substr(numberFloatString.find(",") + 1, numberFloatString.length() - 1 - numberFloatString.find(","))) > transferAccuracy) {
 				numberFloatString = to_string(numberFloat *= finalNumberSystem);
 				// the integer part of numberFloat
@@ -658,7 +676,8 @@ void runSubtaskSixtySeventh() { // refers to the 'Ranks'
 }
 
 void runSubtaskSeventh() { // refers to the 'Files'
-
+	cout << "\nEnter the number of matrix rows:\n";
+	int matrixRows = initializeInteger("positive", 0, 0);
 }
 
 void runSubtaskTwentySixth() { // refers to the 'Files'
@@ -673,13 +692,13 @@ int main() {
 		"2 to run the task 'Ranks', "
 		"3 to run the task 'Files'.\n"
 		"Enter 0 to end the programm.\nEnter the task number :\n";
-	chooseTask = initializeNotNegativeInteger();
+	chooseTask = initializeInteger("notnegative", 0, 0);
 	while (chooseTask > 0) {
 		switch (chooseTask) {
 		case 1: {
 			cout << "\nEnter 0 to end the choosing of the subtask.\n"
 				"Enter the number of subtask :\n";
-			int chooseSubtask = initializeNotNegativeInteger();
+			int chooseSubtask = initializeInteger("notnegative", 0, 0);
 			while (chooseSubtask > 0) {
 				switch (chooseSubtask) {
 				case 10:
@@ -695,14 +714,14 @@ int main() {
 					break;
 				}
 				cout << "\nEnter the next subtask number:\n";
-				chooseSubtask = initializeNotNegativeInteger();
+				chooseSubtask = initializeInteger("notnegative", 0, 0);
 			}
 			break;
 		}
 		case 2: {
 			cout << "\nEnter 0 to end the choosing of the subtask.\n"
 				"Enter the number of subtask :\n";
-			int chooseSubtask = initializeNotNegativeInteger();
+			int chooseSubtask = initializeInteger("notnegative", 0, 0);
 			while (chooseSubtask > 0) {
 				switch (chooseSubtask) {
 				case 19:
@@ -718,14 +737,14 @@ int main() {
 					break;
 				}
 				cout << "\nEnter the next subtask number:\n";
-				chooseSubtask = initializeNotNegativeInteger();
+				chooseSubtask = initializeInteger("notnegative", 0, 0);
 			}
 			break;
 		}
 		case 3: {
 			cout << "\nEnter 0 to end the choosing of the subtask.\n"
 				"Enter the number of subtask :\n";
-			int chooseSubtask = initializeNotNegativeInteger();
+			int chooseSubtask = initializeInteger("notnegative", 0, 0);
 			while (chooseSubtask > 0) {
 				switch (chooseSubtask) {
 				case 7:
@@ -741,7 +760,7 @@ int main() {
 					break;
 				}
 				cout << "\nEnter the next subtask number:\n";
-				chooseSubtask = initializeNotNegativeInteger();
+				chooseSubtask = initializeInteger("notnegative", 0, 0);
 			}
 			break;
 		}
@@ -752,6 +771,6 @@ int main() {
 			break;
 		}
 		cout << "\nEnter the next task number:\n";
-		chooseTask = initializeNotNegativeInteger();
+		chooseTask = initializeInteger("notnegative", 0, 0);
 	}
 }
