@@ -34,15 +34,15 @@ Additional information to the programmes:
 
 		1.1.2)Lists of using word's parts:
 
-			1.1.1.1)List of using suffixes:
+			1.1.2.1)List of using suffixes:
 				acy, ed, ance/ence, dom, er/or, ism, ist, ity/ty, ment, ness, sion/tion.
 				ate, en, ify/fy, ize, ly, ing, y.
 				able/ible, al, esque, ful, ic/ical, ious/ous, ish, ive, less.
 	
-			1.1.1.2)List of indivisiable suffixes:
+			1.1.2.2)List of indivisiable suffixes:
 				al, ed.
 
-			1.1.1.3)List of using prefixes:
+			1.1.2.3)List of using prefixes:
 				Anti, de, un, dis, im, mid, mis, over, pre, re, super, under.	
 	
 		1.1.3)Restrictions:
