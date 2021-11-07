@@ -1,58 +1,60 @@
 #include <iostream>
 #include <string>
 #define _USE_MATH_DEFINES
-#include <math.h>
+#include <cmath>
+#include <cstdlib>
 #include <fstream> // for if/ofstream
 #include <time.h> // for srand
 #include <vector> // for vector
 #include <stdio.h> // for printf
+#include <stdlib.h> // for rand, srand
+#include <sstream>
+#include <utility>
+#define numberOfStudents 5 // for subtask 26th
+#define numberOfSubjects 5 // for subtask 26th
 
 using namespace std;
 
-// function that check type error or "border crossing"
-int initializeInteger(string path, int lowerBound, int upperBound) { 
-	int temporaryVariable; // inicialization of temporary variable 
-	if (lowerBound != 0 || upperBound != 0) {
-		while (!(cin >> temporaryVariable)
-			|| temporaryVariable < lowerBound
-			|| temporaryVariable > upperBound) {
-			cout << "Initialization error.\nEnter correct value:\n";
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			// operator >> will no longer fetch data from the stream 
-			// as it is in the wrong format
+//function that check type error or "border crossing"
+int initializeInteger(string path, int lowerBound, int upperBound) {
+	bool isCorrect = false;
+	int temporaryVariable;
+	while (!isCorrect) {
+		string temporaryVariableString;
+		cin >> temporaryVariableString;
+		isCorrect = true;
+		for (size_t i = 0; i < 128; i++) {
+			if ((i < (int)'0' || i >(int)'9') && i != (int)'-') {
+				if (temporaryVariableString.find((char)i) != string::npos) {
+					isCorrect = false;
+				}
+			}
 		}
-	}
-	else if (path == "all") {
-		while (!(cin >> temporaryVariable)) {
-			cout << "Initialization error.\nEnter correct value:\n";
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		if (isCorrect) {
+			temporaryVariable = stoi(temporaryVariableString);
+			if (lowerBound != 0 || upperBound != 0) {
+				if (temporaryVariable < lowerBound
+					|| temporaryVariable > upperBound) {
+					cout << "Initialization error.\nEnter correct value:\n";
+					cin.clear();
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					isCorrect = false;
+					// operator >> will no longer fetch data from the stream 
+					// as it is in the wrong format
+				}
+			}
+			else if (path == "allExceptZero" && temporaryVariable == 0 ||
+				path == "negative" && temporaryVariable >= 0 ||
+				path == "notpositive" && temporaryVariable > 0 ||
+				path == "notnegative" && temporaryVariable < 0 ||
+				path == "positive" && temporaryVariable <= 0) {
+				cout << "Initialization error.\nEnter correct value:\n";
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				isCorrect = false;
+			}
 		}
-	}
-	else if (path == "negative") {
-		while (!(cin >> temporaryVariable) || temporaryVariable >= 0) {
-			cout << "Initialization error.\nEnter correct value:\n";
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		}
-	}
-	else if (path == "notpositive") {
-		while (!(cin >> temporaryVariable) || temporaryVariable > 0) {
-			cout << "Initialization error.\nEnter correct value:\n";
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		}
-	}
-	else if (path == "notnegative") {
-		while (!(cin >> temporaryVariable) || temporaryVariable < 0) {
-			cout << "Initialization error.\nEnter correct value:\n";
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		}
-	}
-	else if (path == "positive") {
-		while (!(cin >> temporaryVariable) || temporaryVariable <= 0) {
+		else {
 			cout << "Initialization error.\nEnter correct value:\n";
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -63,48 +65,46 @@ int initializeInteger(string path, int lowerBound, int upperBound) {
 
 // function that check type error or "border crossing"
 double initializeDouble(string path, double lowerBound, double upperBound) {
-	int temporaryVariable; // inicialization of temporary variable 
-	if (lowerBound != 0 || upperBound != 0) {
-		while (!(cin >> temporaryVariable)
-			|| temporaryVariable < lowerBound
-			|| temporaryVariable > upperBound) {
-			cout << "Initialization error.\nEnter correct value:\n";
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			// operator >> will no longer fetch data from the stream 
-			// as it is in the wrong format
+	bool isCorrect = false;
+	double temporaryVariable;
+	while (!isCorrect) {
+		string temporaryVariableString;
+		cin >> temporaryVariableString;
+		isCorrect = true;
+		for (size_t i = 0; i < 128; i++) {
+			if ((i < (int)'0' || i >(int)'9') &&
+				i != (int)'-' && i != (int)'.') {
+				if (temporaryVariableString.find((char)i) != string::npos) {
+					isCorrect = false;
+				}
+			}
 		}
-	}
-	else if (path == "all") {
-		while (!(cin >> temporaryVariable)) {
-			cout << "Initialization error.\nEnter correct value:\n";
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		if (isCorrect) {
+			// turns a string into a stream:
+			istringstream stringStream(temporaryVariableString);
+			stringStream >> temporaryVariable; // reads data from the stream
+			if (lowerBound != 0.0 || upperBound != 0.0) {
+				if (temporaryVariable < lowerBound ||
+					temporaryVariable > upperBound) {
+					cout << "Initialization error.\nEnter correct value:\n";
+					cin.clear();
+					// operator >> will no longer fetch data from the stream:
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					isCorrect = false;
+				}
+			}
+			else if (path == "allExceptZero" && temporaryVariable == 0.0 ||
+				path == "negative" && temporaryVariable >= 0.0 ||
+				path == "notpositive" && temporaryVariable > 0.0 ||
+				path == "notnegative" && temporaryVariable < 0.0 ||
+				path == "positive" && temporaryVariable <= 0.0) {
+				cout << "Initialization error.\nEnter correct value:\n";
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				isCorrect = false;
+			}
 		}
-	}
-	else if (path == "negative") {
-		while (!(cin >> temporaryVariable) || temporaryVariable >= 0) {
-			cout << "Initialization error.\nEnter correct value:\n";
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		}
-	}
-	else if (path == "notpositive") {
-		while (!(cin >> temporaryVariable) || temporaryVariable > 0) {
-			cout << "Initialization error.\nEnter correct value:\n";
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		}
-	}
-	else if (path == "notnegative") {
-		while (!(cin >> temporaryVariable) || temporaryVariable < 0) {
-			cout << "Initialization error.\nEnter correct value:\n";
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		}
-	}
-	else if (path == "positive") {
-		while (!(cin >> temporaryVariable) || temporaryVariable <= 0) {
+		else {
 			cout << "Initialization error.\nEnter correct value:\n";
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -207,7 +207,6 @@ string insertSpaces(string startWord, string allVowels,
 	// if letter is consinat - "c"
 	// if letter is vowel - "v"
 	// if letter is a special character - "s" (anyway is indicated by spaces)
-	// if character is unacceptable - "u"
 	for (size_t i = 0; i < word.length(); i++) {
 		// if letter is consinat:
 		if (allConsinats.find(word[i]) != string::npos) {
@@ -473,24 +472,46 @@ int runSubtaskTwentySeventh() { // refers to the 'Processing of text files'
 		return 0;
 	}
 	else {
-		srand(time(0)); // randomizing depends on system time
-		cout << "\nEnter the number of symbols in the file :\n";
-		int symbolsNumber = initializeInteger("notnegative", 0, 0);
-		switch (symbolsNumber) {
-		case 0: {
-			cout << "\nThere are no symbols in the text file.\n";
-		}
-		default: { // {} because of inicializing symbolOutput variable
-			for (size_t i = 0; i < symbolsNumber; i++) {
-				if (i == symbolsNumber - 1) { // if symbol is the last
-					int symbolOutput = rand() % 128;
-					fout << (char)symbolOutput; // without endl
-				}
-				else { // if symbol isn't the last
-					int symbolOutput = rand() % 128;
-					fout << (char)symbolOutput << endl; // with endl
-				}
+		cout << "\nEnter 1 to continue with your own text.\n"
+			"Enter 2 to continue with random text.\n";
+		int path = initializeInteger("all", 1, 2);
+		switch (path) {
+		case 1: {
+			cout << "\nAttention! For correct work of the programm don't use "
+				"space bottom (else only symbols before space would be written"
+				").\nEnter your text:\n";
+			string userText;
+			cin.ignore(32767, '\n');
+			cin >> userText;
+			for (size_t i = 0; i < userText.length(); i++) {
+				fout << userText[i]; // writing to the file
 			}
+			break;
+		}
+		case 2: {
+			srand(time(0)); // randomizing depends on system time
+			cout << "\nEnter the number of symbols in the file:\n";
+			int symbolsNumber = initializeInteger("notnegative", 0, 0);
+			switch (symbolsNumber) {
+			case 0: {
+				cout << "\nThere are no symbols in the text file.\n";
+				break;
+			}
+			default: { // {} because of inicializing symbolOutput variable
+				for (size_t i = 0; i < symbolsNumber; i++) {
+					if (i == symbolsNumber - 1) { // if symbol is the last
+						int symbolOutput = rand() % 128;
+						fout << (char)symbolOutput; // without endl
+					}
+					else { // if symbol isn't the last
+						int symbolOutput = rand() % 128;
+						fout << (char)symbolOutput << endl; // with endl
+					}
+				}
+				break;
+			}
+			}
+			break;
 		}
 		}
 	}
@@ -534,7 +555,7 @@ int runSubtaskNineteenth() { // refers to the 'Ranks'
 	cout << "\nStudent height analysis.\n"
 		"To exit from the program enter 0 and push <Enter> bottom:\n"
 		"Enter height in centimeters and push <Enter> bottom:\n";
-	double studentHeight = initializeDouble("all", 0.0, 272.0), summaryHeight = 0;
+	double studentHeight = initializeDouble("all", 0.0, 244.0), summaryHeight = 0;
 	// if user interrupted the programm:
 	if (studentHeight == 0.0) {
 		cout << "\nPremature exit from the subtask.\n"
@@ -619,10 +640,12 @@ void runSubtaskSixtySeventh() { // refers to the 'Ranks'
 			// reversed iteration for transfer to decimal system:
 			for (int i = originalNumber.length() - 1; i >= 0; i--) {
 				char rankChar = originalNumber[i];
-				numberInteger += (static_cast<long>(rankChar) - 48) * pow(2, (originalNumber.length() - 1 - i));
+				numberInteger += (static_cast<long>(rankChar) - 48) * 
+					pow(2, (originalNumber.length() - 1 - i));
 			}
 			while (numberInteger > 0) { // transfer to final number system
-				finalNumber = to_string(numberInteger % finalNumberSystem) + finalNumber;
+				finalNumber = 
+					to_string(numberInteger % finalNumberSystem) + finalNumber;
 				numberInteger /= finalNumberSystem; // <= rank
 			}
 			finalNumbersList[i] = finalNumber;
@@ -631,37 +654,45 @@ void runSubtaskSixtySeventh() { // refers to the 'Ranks'
 			// reversed iteration for transfer to decimal system before point:
 			for (int i = pointIndex - 1; i >= 0; i--) {
 				char rankChar = originalNumber[i];
-				numberInteger += (static_cast<long>(rankChar) - 48) * pow(2, (pointIndex - 1 - i));
+				numberInteger += (static_cast<long>(rankChar) - 48) * 
+					pow(2, (pointIndex - 1 - i));
 			}
 			// reversed iteration for transfer to decimal system after point:
 			for (int i = originalNumber.length() - 1; i > pointIndex; i--) {
 				char rankChar = originalNumber[i];
-				numberFloat += (static_cast<long>(rankChar) - 48) * pow(2, (-1 * (i - pointIndex)));
+				numberFloat += (static_cast<long>(rankChar) - 48) * 
+					pow(2, (-1 * (i - pointIndex)));
 			}
 			// fractional number in decimal system:
 			float numberDecimal = numberInteger + numberFloat;
 			// transfer integer part to final number system:
 			while (numberInteger > 0) { 
-				finalNumber = to_string(numberInteger % finalNumberSystem) + finalNumber;
+				finalNumber = 
+					to_string(numberInteger % finalNumberSystem) + finalNumber;
 				numberInteger /= finalNumberSystem; // <= rank
 			}
 			finalNumber += ","; // adding the point to integer
 			string numberFloatString = to_string(numberFloat);
 			pointIndex = numberFloatString.find(",");
-			float transferAccuracy = 1.0f / pow(finalNumberSystem, numberFloatString.length() - 1 - pointIndex);
+			float transferAccuracy = 1.0f / pow(finalNumberSystem, 
+				numberFloatString.length() - 1 - pointIndex);
 			// transfer fractional part to ss2:
 			int counterOfRanks = 0;
 			cout << "Enter needful number of ranks after (,):\n";
 			int maxCountOfRanks = initializeInteger("notnegative", 0, 0);
-			while (stof(numberFloatString.substr(numberFloatString.find(",") + 1, numberFloatString.length() - 1 - numberFloatString.find(","))) > transferAccuracy) {
-				numberFloatString = to_string(numberFloat *= finalNumberSystem);
+			while (stof(numberFloatString.substr(numberFloatString.find(",") + 1, 
+				numberFloatString.length() - 1 - numberFloatString.find(","))) > transferAccuracy) {
+				numberFloatString = 
+					to_string(numberFloat *= finalNumberSystem);
 				// the integer part of numberFloat
-				string integerPart = numberFloatString.substr(0, numberFloatString.find(","));
+				string integerPart = 
+					numberFloatString.substr(0, numberFloatString.find(","));
 				if (counterOfRanks >= maxCountOfRanks) {
 					break;
 				}
 				else {
-					finalNumber = finalNumber + to_string(stoi(integerPart) % finalNumberSystem);
+					finalNumber = finalNumber + 
+						to_string(stoi(integerPart) % finalNumberSystem);
 					counterOfRanks++;
 				}
 			}
@@ -671,17 +702,127 @@ void runSubtaskSixtySeventh() { // refers to the 'Ranks'
 	cout << endl;
 	for (size_t i = 0; i < numbersCount; i++) {
 		cout << "Original number is: " << originalNumbersList[i]
-			<< "\t\tFinal number is: " << finalNumbersList[i] << ".\n";
+			<< "\t\t\tFinal number is: " << finalNumbersList[i] << ".\n";
 	}
 }
 
-void runSubtaskSeventh() { // refers to the 'Files'
+int runSubtaskSeventh() { // refers to the 'Files'
 	cout << "\nEnter the number of matrix rows:\n";
-	int matrixRows = initializeInteger("positive", 0, 0);
+	int matrixRowsNumber = initializeInteger("positive", 0, 0);
+	cout << "\nEnter the number of matrix columns:\n";
+	int matrixColumnsNumber = initializeInteger("positive", 0, 0);
+	ofstream fout;
+	string filePath = "text_file_Subtask_Seventh.txt";
+	fout.open(filePath);
+	if (!fout.is_open()) { // checking for the successful opening
+		cout << "\nFile opening error.\n";
+		return 0;
+	}
+	else {
+		srand(time(0));
+		for (size_t i = 0; i < 10; i++) {
+			fout << endl;
+			for (size_t j = 0; j < matrixRowsNumber; j++) {
+				for (size_t k = 0; k < matrixColumnsNumber; k++) {
+					int matrixElement = rand() % 10;
+					if (k == matrixColumnsNumber - 1) {
+						fout << matrixElement;
+					}
+					else {
+						fout << matrixElement << " ";
+					}
+				}
+				fout << endl;
+			}
+			fout << endl;
+		}
+	}
+	fout.close();
 }
 
 void runSubtaskTwentySixth() { // refers to the 'Files'
-
+	string studentsNames[numberOfStudents] = { "Abraham Lincoln",
+		"Michael Gorshenev", "Ilon Musk", "Isaak Newton", "Frodo Baggins" 
+	};
+	string subjectsList[numberOfSubjects] = { "Physics", "Chemistry", "Law", 
+		"Arts", "Future developing" 
+	};
+	srand(time(0)); // randomizing depends on time
+	double marks[numberOfStudents][numberOfSubjects], marksSum = 0.0;
+	double averageMarks[numberOfStudents];
+	// output the original data into the console:
+	cout << "\nNot sorted data:\n\n¹" // columns names
+		<< string(to_string(numberOfStudents).length(), ' ') << "|Name" 
+		<< string(17, ' ') << "|Subject\n";
+	// string (a, b) makes char b a string with int a length
+	// iteration per each student:
+	for (size_t i = 0; i < numberOfStudents; i++) {
+		cout << "\n" << i + 1 << " |" << studentsNames[i] 
+			<< string((21 - studentsNames[i].length()), ' ');
+		// iteration per each subject:
+		for (size_t j = 0; j < numberOfSubjects; j++) {
+			marks[i][j] = (rand() % 100) / 10.0; // random double <= 10 & >= 0
+			cout << '|' << subjectsList[j] << " - " 
+				<< marks[i][j] << "\n\t\t\t";
+			marksSum += marks[i][j];
+		}
+		// output of average mark for each student:
+		cout << "\n" << string(to_string(numberOfStudents).length() + 1, ' ') 
+			<< "|Average mark of " << studentsNames[i] << " is - " 
+			<< marksSum / numberOfSubjects << ".\n";
+		// saving average mark:
+		averageMarks[i] = marksSum / numberOfSubjects;
+		marksSum = 0.0;
+	}
+	// sorting by finding minimal element:
+	for (size_t i = 0; i < numberOfStudents; i++) {
+		double minimalElement = 100.0; // max element can't be more than 10
+		size_t minimalElementIndex = 0; 
+		for (size_t j = i; j < numberOfStudents; j++) {
+			if (averageMarks[j] < minimalElement) {
+				minimalElement = averageMarks[j];
+				minimalElementIndex = j;
+			}
+		}
+		swap(averageMarks[i], averageMarks[minimalElementIndex]);
+		swap(marks[i], marks[minimalElementIndex]);
+		swap(studentsNames[i], studentsNames[minimalElementIndex]);
+	}
+	ofstream fout; // output file stream (writing)
+	string path = "text_file_Subtask_TwentySixth.txt"; // path to the file
+	fout.open(path);
+	if (!fout.is_open()) { // checking for the successful opening
+		cout << "\nFile opening error.\n";
+	}
+	else {
+		cout << "\nSorted data:\n\n¹"
+			<< string(to_string(numberOfStudents).length(), ' ') << "|Name"
+			<< string(17, ' ') << "|Subject\n";
+		fout << "\nSorted data:\n\n¹"
+			<< string(to_string(numberOfStudents).length(), ' ') << "|Name"
+			<< string(17, ' ') << "|Subject\n";
+		for (size_t i = 0; i < numberOfStudents; i++) {
+			cout << "\n" << i + 1 << " |" << studentsNames[i]
+				<< string((21 - studentsNames[i].length()), ' ');
+			fout << "\n" << i + 1 << " |" << studentsNames[i] 
+				<< string((21 - studentsNames[i].length()), ' ');
+			for (size_t j = 0; j < numberOfSubjects; j++) {
+				cout << '|' << subjectsList[j] << " - " 
+					<< marks[i][j] << "\n\t\t\t";
+				fout << '|' << subjectsList[j] << " - " 
+					<< marks[i][j] << "\n\t\t\t";
+			}
+			cout << "\n" 
+				<< string(to_string(numberOfStudents).length() + 1, ' ')
+				<< "|Average mark of " << studentsNames[i] << " is - "
+				<< averageMarks[i] << ".\n";
+			fout << "\n" 
+				<< string(to_string(numberOfStudents).length() + 1, ' ')
+				<< "|Average mark of " << studentsNames[i] << " is - "
+				<< averageMarks[i] << ".\n";
+		}
+	}
+	fout.close(); // closing file 
 }
 
 int main() {
