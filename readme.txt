@@ -83,7 +83,5 @@ Additional information to the programmes:
 
 		2.1.1)Restrictions:
 
-			2.1.1.1)The height of student was limited by 272 cm 'cause it's the maximum
+			2.1.1.1)The height of student was limited by 244 cm 'cause it's the maximum
 				height of person that ever was fixed (according to the Guiness Records Book).
-
-	2.2)Subtask 67th:
