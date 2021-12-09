@@ -34,15 +34,15 @@ Additional information to the programmes:
 
 		1.1.2)Lists of using word's parts:
 
-			1.1.1.1)List of using suffixes:
+			1.1.2.1)List of using suffixes:
 				acy, ed, ance/ence, dom, er/or, ism, ist, ity/ty, ment, ness, sion/tion.
 				ate, en, ify/fy, ize, ly, ing, y.
 				able/ible, al, esque, ful, ic/ical, ious/ous, ish, ive, less.
 	
-			1.1.1.2)List of indivisiable suffixes:
+			1.1.2.2)List of indivisiable suffixes:
 				al, ed.
 
-			1.1.1.3)List of using prefixes:
+			1.1.2.3)List of using prefixes:
 				Anti, de, un, dis, im, mid, mis, over, pre, re, super, under.	
 	
 		1.1.3)Restrictions:
@@ -83,7 +83,5 @@ Additional information to the programmes:
 
 		2.1.1)Restrictions:
 
-			2.1.1.1)The height of student was limited by 272 cm 'cause it's the maximum
+			2.1.1.1)The height of student was limited by 244 cm 'cause it's the maximum
 				height of person that ever was fixed (according to the Guiness Records Book).
-
-	2.2)Subtask 67th:
