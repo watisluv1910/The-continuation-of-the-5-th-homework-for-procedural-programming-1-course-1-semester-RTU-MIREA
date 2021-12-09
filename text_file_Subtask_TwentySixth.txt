@@ -3,42 +3,42 @@ Sorted data:
 
 ¹ |Name                 |Subject
 
-1 |Frodo Baggins        |Physics - 2.5
-			|Chemistry - 3.1
-			|Law - 5.4
-			|Arts - 5.7
-			|Future developing - 8.3
+1 |Abraham Lincoln      |Physics - 4.5
+			|Chemistry - 1
+			|Law - 2.2
+			|Arts - 2.6
+			|Future developing - 5
 			
-  |Average mark of Frodo Baggins is - 5.
+  |Average mark of Abraham Lincoln is - 3.06.
 
-2 |Michael Gorshenev    |Physics - 4.9
-			|Chemistry - 9.8
-			|Law - 1.8
-			|Arts - 6.7
-			|Future developing - 4.6
+2 |Isaak Newton         |Physics - 2.5
+			|Chemistry - 3.3
+			|Law - 6.4
+			|Arts - 0
+			|Future developing - 4.7
 			
-  |Average mark of Michael Gorshenev is - 5.56.
+  |Average mark of Isaak Newton is - 3.38.
 
-3 |Abraham Lincoln      |Physics - 1
-			|Chemistry - 9
-			|Law - 7.8
-			|Arts - 8.2
-			|Future developing - 3.3
+3 |Ilon Musk            |Physics - 6.1
+			|Chemistry - 6.4
+			|Law - 0.8
+			|Arts - 6.3
+			|Future developing - 0.2
 			
-  |Average mark of Abraham Lincoln is - 5.86.
+  |Average mark of Ilon Musk is - 3.96.
 
-4 |Ilon Musk            |Physics - 5.2
-			|Chemistry - 8.5
-			|Law - 6.3
-			|Arts - 7.3
-			|Future developing - 2.5
+4 |Michael Gorshenev    |Physics - 0.6
+			|Chemistry - 7.5
+			|Law - 9.9
+			|Arts - 7.4
+			|Future developing - 6.5
 			
-  |Average mark of Ilon Musk is - 5.96.
+  |Average mark of Michael Gorshenev is - 6.38.
 
-5 |Isaak Newton         |Physics - 5.6
-			|Chemistry - 7.2
-			|Law - 9.5
-			|Arts - 3.2
-			|Future developing - 5.3
+5 |Frodo Baggins        |Physics - 9.3
+			|Chemistry - 5
+			|Law - 8.2
+			|Arts - 8.9
+			|Future developing - 7.4
 			
-  |Average mark of Isaak Newton is - 6.16.
+  |Average mark of Frodo Baggins is - 7.76.
