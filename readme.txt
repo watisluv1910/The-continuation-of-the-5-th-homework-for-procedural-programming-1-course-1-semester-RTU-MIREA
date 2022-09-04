@@ -1,4 +1,4 @@
-Additional information to the programmes:
+Additional information to the programms:
 
 1)Processing of text files:
 
